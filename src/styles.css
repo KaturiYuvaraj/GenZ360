@@ -1,0 +1,671 @@
+@import "tailwindcss";
+
+@theme {
+  --color-paper: #f3f0e8;
+  --color-paper-2: #e9e3d6;
+  --color-paper-3: #ddd5c6;
+  --color-ink: #14161a;
+  --color-ink-soft: #3c414a;
+  --color-mute: #6a717c;
+  --color-line: #d4cec0;
+  --color-accent: #1857ff;
+  --color-accent-2: #0f3fd0;
+  --color-coral: #e85a3c;
+  --color-mint: #1f8a5b;
+  --color-white: #fffcf7;
+  --font-display: "Syne", "Segoe UI", sans-serif;
+  --font-sans: "Figtree", "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 22px;
+  --shadow-lift: 0 18px 40px -28px rgba(20, 22, 26, 0.35);
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: var(--color-paper);
+    color: var(--color-ink);
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+  body {
+    font-family: var(--font-sans);
+    background: var(--color-paper);
+    color: var(--color-ink);
+    margin: 0;
+    overflow-x: hidden;
+    max-width: 100vw;
+    width: 100%;
+  }
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    text-wrap: balance;
+    letter-spacing: -0.035em;
+    font-weight: 600;
+    line-height: 1.05;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  ::selection {
+    background: var(--color-accent);
+    color: var(--color-white);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ── GenZ360 Motion & Micro-Interactions System ───────────────────────── */
+
+@keyframes gz-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes gz-fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes gz-scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes gz-slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes gz-pulse-soft {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.06);
+  }
+}
+
+@keyframes gz-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes gz-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes gz-radar {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(31, 138, 91, 0.45);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 8px rgba(31, 138, 91, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(31, 138, 91, 0);
+  }
+}
+
+/* Animation utilities */
+.animate-gz-fade-in {
+  animation: gz-fade-in 240ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-gz-fade-in-up {
+  animation: gz-fade-in-up 320ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-gz-scale-in {
+  animation: gz-scale-in 200ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-gz-slide-down {
+  animation: gz-slide-down 180ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-gz-pulse-soft {
+  animation: gz-pulse-soft 2.4s ease-in-out infinite;
+}
+
+.animate-gz-float {
+  animation: gz-float 3.6s ease-in-out infinite;
+}
+
+.animate-gz-radar {
+  animation: gz-radar 2.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Stagger utilities */
+.delay-50 { animation-delay: 50ms; }
+.delay-100 { animation-delay: 100ms; }
+.delay-150 { animation-delay: 150ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+
+/* Interactive card with smooth 3D-like hover lift */
+.gz-card-interactive {
+  transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 220ms cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 200ms ease;
+  will-change: transform, box-shadow;
+}
+.gz-card-interactive:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px -10px rgba(20, 22, 26, 0.12);
+  border-color: color-mix(in oklab, var(--color-accent) 40%, var(--color-line));
+}
+
+/* Smooth fill animation for progress bars */
+.gz-progress > span,
+.gz-bar-fill {
+  transition: width 750ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: width;
+}
+
+/* Pulsing live beacon dot */
+.gz-beacon {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.gz-beacon::before {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: 9999px;
+  background: currentColor;
+  opacity: 0.45;
+  animation: gz-pulse-soft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Shimmer highlight effect */
+.gz-shimmer {
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.45) 50%, transparent 100%);
+  background-size: 200% 100%;
+  animation: gz-shimmer 2.4s infinite;
+}
+
+.gz-wrap {
+  width: min(1240px, calc(100% - 40px));
+  margin-inline: auto;
+}
+.gz-wrap-wide {
+  width: min(1380px, calc(100% - 32px));
+  margin-inline: auto;
+}
+
+.gz-kicker {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-mute);
+}
+
+.gz-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 999px;
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  border: 1px solid transparent;
+  transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1),
+    background 150ms ease, color 150ms ease, border-color 150ms ease,
+    box-shadow 180ms ease;
+}
+.gz-btn:hover {
+  transform: translateY(-1px);
+}
+.gz-btn:active {
+  transform: translateY(1px) scale(0.98);
+}
+.gz-btn-primary {
+  background: var(--color-ink);
+  color: var(--color-paper);
+}
+.gz-btn-primary:hover {
+  background: var(--color-accent);
+  color: #fff;
+}
+.gz-btn-ghost {
+  background: transparent;
+  color: var(--color-ink);
+  border-color: var(--color-ink);
+}
+.gz-btn-ghost:hover {
+  background: var(--color-ink);
+  color: var(--color-paper);
+}
+.gz-btn-outline {
+  background: var(--color-white, #ffffff);
+  color: var(--color-ink);
+  border-color: var(--color-line);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+.gz-btn-outline:hover {
+  background: var(--color-paper);
+  border-color: var(--color-ink);
+  color: var(--color-ink);
+}
+.gz-btn-accent {
+  background: var(--color-accent);
+  color: #fff;
+}
+.gz-btn-accent:hover {
+  background: var(--color-accent-2);
+}
+
+.gz-input {
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid var(--color-line);
+  background: var(--color-white);
+  color: var(--color-ink);
+  border-radius: 10px;
+  padding: 0 14px;
+  font: inherit;
+  outline: none;
+}
+.gz-input:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-accent) 22%, transparent);
+}
+textarea.gz-input {
+  padding: 12px 14px;
+  min-height: 110px;
+  resize: vertical;
+}
+
+.gz-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: var(--color-paper-2);
+  color: var(--color-ink-soft);
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.gz-nav {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  mix-blend-mode: normal;
+  transition: padding 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    background 220ms ease, border-color 220ms ease;
+  padding: 18px 0;
+  background: transparent;
+  border-bottom: 1px solid transparent;
+}
+.gz-nav.scrolled {
+  padding: 10px 0;
+  background: color-mix(in oklab, var(--color-paper) 88%, white);
+  border-bottom-color: var(--color-line);
+  backdrop-filter: blur(12px);
+}
+
+.gz-drawer {
+  position: fixed;
+  inset: 0 0 0 auto;
+  width: min(420px, 92vw);
+  background: var(--color-ink);
+  color: var(--color-paper);
+  z-index: 60;
+  padding: 28px 28px 40px;
+  transform: translateX(100%);
+  transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1), visibility 280ms;
+  visibility: hidden;
+  pointer-events: none;
+}
+.gz-drawer.open {
+  transform: translateX(0);
+  visibility: visible;
+  pointer-events: auto;
+}
+.gz-drawer a:not(.gz-btn) {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 26px;
+  line-height: 1.25;
+  padding: 8px 0;
+  letter-spacing: -0.03em;
+  color: var(--color-paper);
+  transition: color 150ms ease, transform 150ms ease;
+}
+.gz-drawer a:not(.gz-btn):hover {
+  color: var(--color-accent);
+  transform: translateX(4px);
+}
+
+.gz-drawer .gz-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  min-height: 46px;
+  padding: 0 20px;
+  letter-spacing: 0.02em;
+  width: 100%;
+}
+
+.gz-panel {
+  background: var(--color-white);
+  border: 1px solid var(--color-line);
+  box-shadow: var(--shadow-lift);
+}
+
+.gz-rule {
+  height: 1px;
+  background: var(--color-line);
+  border: 0;
+}
+
+.gz-hero-title {
+  font-size: clamp(48px, 8vw, 92px);
+  line-height: 0.92;
+  letter-spacing: -0.05em;
+  font-weight: 700;
+}
+
+.gz-section-title {
+  font-size: clamp(32px, 5vw, 64px);
+  line-height: 0.95;
+}
+
+.gz-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.gz-table th {
+  text-align: left;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-mute);
+  font-weight: 600;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--color-line);
+}
+.gz-table td {
+  padding: 14px 12px;
+  border-bottom: 1px solid var(--color-line);
+  vertical-align: middle;
+}
+
+.gz-empty {
+  padding: 48px 24px;
+  text-align: center;
+  color: var(--color-mute);
+  border: 1px dashed var(--color-line);
+  background: color-mix(in oklab, var(--color-white) 70%, transparent);
+}
+
+.gz-progress {
+  height: 6px;
+  background: var(--color-paper-2);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.gz-progress > span {
+  display: block;
+  height: 100%;
+  background: var(--color-accent);
+}
+
+.gz-cert {
+  background: var(--color-white);
+  border: 1px solid var(--color-ink);
+  position: relative;
+  overflow: hidden;
+}
+.gz-cert::before {
+  content: "";
+  position: absolute;
+  inset: 10px;
+  border: 1px solid color-mix(in oklab, var(--color-accent) 50%, var(--color-line));
+  pointer-events: none;
+}
+
+.gz-sidebar {
+  width: 248px;
+  flex-shrink: 0;
+  border-right: 1px solid var(--color-line);
+  background: var(--color-white);
+  min-height: 100%;
+}
+.gz-sidebar a,
+.gz-sidebar button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  text-align: left;
+  padding: 8px 12px;
+  border-radius: 12px;
+  color: var(--color-ink-soft);
+  font-size: 13px;
+  font-weight: 500;
+  background: transparent;
+  border: 1px solid transparent;
+  transition: all 0.15s ease-in-out;
+}
+.gz-sidebar a:hover,
+.gz-sidebar button:hover {
+  background: var(--color-paper-2);
+  color: var(--color-ink);
+}
+.gz-sidebar a.active {
+  background: color-mix(in oklab, var(--color-accent) 10%, transparent);
+  border-color: color-mix(in oklab, var(--color-accent) 25%, transparent);
+  color: var(--color-accent);
+  font-weight: 600;
+}
+
+
+.gz-orbit-fallback {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1.1;
+  max-height: 560px;
+}
+.gz-orbit-fallback .core {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 88px;
+  height: 88px;
+  margin: -44px;
+  border-radius: 50%;
+  border: 1px solid var(--color-ink);
+  background: radial-gradient(circle at 30% 30%, #fff, var(--color-paper-2));
+}
+.gz-orbit-fallback .node {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 120px;
+  margin-left: -60px;
+  margin-top: -22px;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+}
+
+@media (max-width: 1023px) {
+  .gz-wrap,
+  .gz-wrap-wide {
+    width: calc(100% - 32px);
+  }
+  .gz-hero-title {
+    font-size: clamp(34px, 9vw, 64px);
+  }
+  .hide-sm {
+    display: none !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .gz-wrap,
+  .gz-wrap-wide {
+    width: calc(100% - 24px);
+  }
+  .gz-hero-title {
+    font-size: clamp(30px, 9.5vw, 46px);
+  }
+}
+
+@media print {
+  /* 1. Hide all application navigation, headers, sidebars, drawer, and toolbar elements */
+  nav, footer, header, aside, .gz-sidebar, .gz-nav, .gz-drawer, .no-print, [data-no-print] {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+  }
+
+  /* 2. Reset html, body, and all app-level wrappers to prevent height constraints or blank pages */
+  html, body, #root, .min-h-screen, main, .pb-12, .gz-wrap, .gz-wrap-wide {
+    display: block !important;
+    background: white !important;
+    color: #14161a !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  /* 3. Resume studio container and split grid */
+  .resume-studio-grid,
+  .resume-container {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* 4. Force the resume paper wrapper and scaled containers to unscale in print */
+  .resume-paper-wrapper,
+  .resume-scale-sizer,
+  .resume-scale-inner {
+    display: block !important;
+    visibility: visible !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    min-height: auto !important;
+    transform: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+  }
+
+  /* 5. Resume sheet formatting for crisp print and PDF export */
+  #resume-sheet,
+  .resume-sheet {
+    display: block !important;
+    visibility: visible !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: auto !important;
+    background: white !important;
+    color: #14161a !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  #resume-sheet * {
+    visibility: visible !important;
+  }
+
+  @page {
+    size: A4 portrait;
+    margin: 10mm 12mm;
+  }
+}

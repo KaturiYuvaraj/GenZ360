@@ -1,0 +1,9 @@
+node_modules/
+.tanstack/
+.vercel/
+dist/
+.env
+.env.local
+.env.*.local
+*.log
+.node_modules.lock

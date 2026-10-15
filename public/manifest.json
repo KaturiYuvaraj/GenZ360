@@ -1,0 +1,16 @@
+{
+  "name": "GenZ360",
+  "short_name": "GenZ360",
+  "description": "India's premier youth talent and career ecosystem — sports, skills, internships, projects, and placements.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FAF8F5",
+  "theme_color": "#F3F0E8",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
